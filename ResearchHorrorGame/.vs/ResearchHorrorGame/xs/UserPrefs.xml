@@ -1,0 +1,36 @@
+﻿<Properties StartupConfiguration="{D32980D6-8DB7-D881-F5B8-66907DB69F9F}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Standard Assets/Characters/FirstPersonCharacter/Scripts/MouseLook.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Player.cs" Line="125" Column="57" />
+      <File FileName="Assets/Standard Assets/Characters/FirstPersonCharacter/Scripts/RigidbodyFirstPersonController.cs" Line="90" Column="47" />
+      <File FileName="Assets/Standard Assets/Characters/FirstPersonCharacter/Scripts/MouseLook.cs" Line="8" Column="18" />
+      <File FileName="Assets/Scripts/Selector.cs" Line="61" Column="41" />
+      <File FileName="Assets/Scripts/ISelectable.cs" Line="9" Column="41" />
+      <File FileName="Assets/Scripts/ITriggerable.cs" Line="11" Column="58" />
+      <File FileName="Assets/Scripts/IExecutable.cs" Line="6" Column="44" />
+      <File FileName="Assets/Scripts/Selectables/Button.cs" Line="22" Column="61" />
+      <File FileName="Assets/Scripts/Executables/StatExecutable.cs" Line="15" Column="45" />
+      <File FileName="Assets/Scripts/Executables/AnimationExecutable.cs" Line="22" Column="51" />
+      <File FileName="Assets/Scripts/Executables/ClueExecutable.cs" Line="16" Column="16" />
+      <File FileName="Assets/Scripts/Keypad.cs" Line="374" Column="97" />
+      <File FileName="Assets/Scripts/HUD.cs" Line="19" Column="1" />
+      <File FileName="Assets/Scripts/MapManager.cs" Line="143" Column="133" />
+      <File FileName="Assets/Scripts/zombietest.cs" Line="15" Column="11" />
+      <File FileName="Assets/Scripts/SpawnHorde.cs" Line="90" Column="55" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="Unity" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="917324ca-1f87-4181-a70d-af6d62856fa2" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

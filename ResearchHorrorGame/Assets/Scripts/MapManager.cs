@@ -85,6 +85,7 @@ public class MapManager : MonoBehaviour
         for(int i = 0; i < blockSize; i++)
         {
             t = Instantiate(piecePrefab).transform;
+            t.parent = transform;
 
             t.position = Vector3.forward * (ptr * pieceLength + pieceLength / 2);
 
@@ -98,8 +99,6 @@ public class MapManager : MonoBehaviour
         //(this check prevents doors from being spawned in negative areas as well as too close to the start of the map)
         if(SpawnZThreshold > 0.5f)
             SpawnDoor();
-
-        Debug.LogError("Spawned Pieces");
     }
 
     private void DeallocateMapPieces()

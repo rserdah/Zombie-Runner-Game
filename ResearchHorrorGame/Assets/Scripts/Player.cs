@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityStandardAssets.Characters.FirstPerson;
 
@@ -32,6 +32,8 @@ Also make machines/contraptions that have to be coordinated with players in orde
 public class Player : MonoBehaviour
 {
     public static Player player;
+    public static Vector3 playerStartPosition;
+    public static float maxPlayerDistance;
     public static Material selectedMaterial;
 
     public Dictionary<string, string> activeClues = new Dictionary<string, string>();
@@ -93,6 +95,10 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private bool lockMovementDirection = false;
+    private bool canLookBack = true; //Player can look back only after a certain amount of time (so they can't spam that feature; hardcoded time)
+    private bool canSlideKick = true;
+
+    public AudioMixer masterMixer;
 
 
     private void ShowVel()
@@ -109,6 +115,7 @@ public class Player : MonoBehaviour
         }
 
         player = this;
+        playerStartPosition = player.transform.position;
 
         selectedMaterial = Resources.Load<Material>("Materials/Selected");
 
@@ -126,18 +133,32 @@ public class Player : MonoBehaviour
 
         selector = GetComponent<Selector>();
         selector.Init(this);
+
+        hudCallback += (Stats _) => { HUD.SetDistance(maxPlayerDistance = Mathf.Max(maxPlayerDistance, player.transform.position.z - playerStartPosition.z)); };
     }
 
     private void Update()
     {
         Time.timeScale = timeScale;
+        //Setting Time.fixedDeltaTime sets the fixed time step in settings
+        //When setting the timeScale, we must also keep the same ratio between timeScale and time step so there are no choppy frames during slow motion
+        Time.fixedDeltaTime = 0.02f * timeScale; //0.02f is the default so multiply that by the ratio (since timeScale is originally 1, the ratio is equal to timeScale)
+                                                 //to get consistency
+
+        masterMixer.SetFloat("Pitch", timeScale);
 
         controller.lockMovementDirection = lockMovementDirection;
 
         //Attack
-        if(Input.GetButtonDown("Fire1"))
+        if(canSlideKick && Input.GetButtonDown("Fire1") && controller.rigidbody.velocity.sqrMagnitude > 2.5f)
         {
+            anim.Play("SlideKick");
 
+            //10000 force is currently a perfect value for this animation. However, it only works if player has a little momentum currently. FIX THIS ISSUE
+            controller.rigidbody.AddForce(transform.forward * 10000f);
+
+            canSlideKick = false;
+            Invoke(nameof(ResetSlideKick), 4f);
         }
 
         //Zoom in
@@ -160,12 +181,18 @@ public class Player : MonoBehaviour
         }
 
         //Look back
-        if(Input.GetKeyDown(KeyCode.Q) && !lockMovementDirection)
+        if(canLookBack && Input.GetKeyDown(KeyCode.Q) && !lockMovementDirection)
+        {
             anim.Play("LookBack");
+            canLookBack = false;
+        }
 
         //Look forward
         if(Input.GetKeyUp(KeyCode.Q) && lockMovementDirection)
+        {
             anim.Play("LookForward");
+            Invoke(nameof(ResetLookBack), 5f);
+        }
 
         CalculateStats();
 
@@ -181,6 +208,16 @@ public class Player : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Alpha2))
             HUD.pointer = HUD.PointerType.UNAVAILABLE;
+    }
+
+    private void ResetLookBack()
+    {
+        canLookBack = true;
+    }
+
+    private void ResetSlideKick()
+    {
+        canSlideKick = true;
     }
 
     /*private void Zoom(bool zoom)
@@ -210,6 +247,18 @@ public class Player : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
     }*/
+
+
+
+
+
+
+
+
+    //***************************************************************************************************************************************************************************
+    //***************************************************************************************************************************************************************************
+    //***************************************************************************************************************************************************************************
+    //***************************************************************************************************************************************************************************
 
     private void CalculateStats()
     {

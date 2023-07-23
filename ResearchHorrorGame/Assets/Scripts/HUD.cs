@@ -27,6 +27,8 @@ public class HUD : MonoBehaviour
     public Text water;
     public Text clues;
 
+    public Text odometer;
+
 
     private void Start()
     {
@@ -94,5 +96,10 @@ public class HUD : MonoBehaviour
     {
         pointerImage.gameObject.SetActive(useImage);
         pointerText.gameObject.SetActive(!useImage);
+    }
+
+    public static void SetDistance(float distance)
+    {
+        Instance.odometer.text = Mathf.RoundToInt(distance) + "m";
     }
 }

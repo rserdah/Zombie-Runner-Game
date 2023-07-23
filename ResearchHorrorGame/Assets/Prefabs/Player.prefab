@@ -304,7 +304,8 @@ AudioSource:
   m_GameObject: {fileID: 4434829966766260613}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 4b4eff9f461a444da825c6fb3ac55ab8,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -496,16 +497,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6246467878974283180, guid: ced1696effc80440e8549c3ba3d905d8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6246467878974283180, guid: ced1696effc80440e8549c3ba3d905d8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6859478760473098752, guid: ced1696effc80440e8549c3ba3d905d8,
         type: 3}
       propertyPath: m_Name
-      value: Player
+      value: RigidBodyFPSController
       objectReference: {fileID: 0}
     - target: {fileID: 6859478760473098754, guid: ced1696effc80440e8549c3ba3d905d8,
         type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1,
+        type: 2}
     - target: {fileID: 6859478760473098755, guid: ced1696effc80440e8549c3ba3d905d8,
         type: 3}
       propertyPath: footsteps.Array.size
@@ -574,7 +586,7 @@ PrefabInstance:
     - target: {fileID: 6859478760473098756, guid: ced1696effc80440e8549c3ba3d905d8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.491
+      value: 14.95
       objectReference: {fileID: 0}
     - target: {fileID: 6859478760473098756, guid: ced1696effc80440e8549c3ba3d905d8,
         type: 3}
@@ -616,6 +628,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6859478760473098758, guid: ced1696effc80440e8549c3ba3d905d8,
+        type: 3}
+      propertyPath: stats.staminaGainDrainSpeed.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6859478760473098758, guid: ced1696effc80440e8549c3ba3d905d8,
+        type: 3}
+      propertyPath: masterMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 4b4eff9f461a444da825c6fb3ac55ab8,
+        type: 2}
     - target: {fileID: 6859478760473098759, guid: ced1696effc80440e8549c3ba3d905d8,
         type: 3}
       propertyPath: rayDistance

@@ -101,11 +101,6 @@ public class Player : MonoBehaviour
     public AudioMixer masterMixer;
 
 
-    private void ShowVel()
-    {
-        text.text = controller.Velocity.sqrMagnitude + "";
-    }
-
     private void Awake()
     {
         if(player != null)
@@ -135,6 +130,8 @@ public class Player : MonoBehaviour
         selector.Init(this);
 
         hudCallback += (Stats _) => { HUD.SetDistance(maxPlayerDistance = Mathf.Max(maxPlayerDistance, player.transform.position.z - playerStartPosition.z)); };
+        hudCallback += (Stats _) => { HUD.SetTimerSeconds(Time.time); };
+        hudCallback += (Stats _) => { HUD.SetSpeedometer((player.controller.rigidbody.velocity.z * Vector3.forward).magnitude); };
     }
 
     private void Update()

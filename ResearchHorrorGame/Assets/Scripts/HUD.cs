@@ -28,6 +28,8 @@ public class HUD : MonoBehaviour
     public Text clues;
 
     public Text odometer;
+    public Text speedometer;
+    public Text stopwatch;
 
 
     private void Start()
@@ -101,5 +103,18 @@ public class HUD : MonoBehaviour
     public static void SetDistance(float distance)
     {
         Instance.odometer.text = Mathf.RoundToInt(distance) + "m";
+    }
+
+    public static void SetTimerSeconds(float totalSeconds)
+    {
+        int minutes = (int)(totalSeconds / 60);
+        int seconds = (int)(totalSeconds - minutes * 60);
+
+        Instance.stopwatch.text = $"{minutes}\" {seconds}\'";
+    }
+
+    public static void SetSpeedometer(float velocity)
+    {
+        Instance.speedometer.text = $"{(int)velocity}m/s\n";
     }
 }

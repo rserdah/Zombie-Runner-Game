@@ -39,7 +39,8 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private Animator anim;
+    public Animator anim { get; private set; }
+    public new Collider collider { get; private set; }
     public Color[] colors;
     public RagdollJoint[] joints;
 
@@ -47,6 +48,7 @@ public class Zombie : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        collider = GetComponent<Collider>();
 
         joints = RagdollJoint.GetRagdollJoints(transform);
 
@@ -54,7 +56,7 @@ public class Zombie : MonoBehaviour
 
         transform.localScale = transform.localScale.x * Random.Range(0.9f, 1.1f) * Vector3.one;
 
-        anim.Play("zombie run");
+        Game.OnGameStart += () => { anim.Play("zombie run"); Debug.LogError("Have doors play the loud buzzing sound when opened. See (https://freesound.org/people/kyles/sounds/453724/)"); };
 
         /*switch(Random.Range(0, 2))
         {
@@ -80,14 +82,22 @@ public class Zombie : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            Ragdoll();
-            GetComponentInChildren<Rigidbody>().AddForce(Player.player.transform.forward * 500f + Vector3.up * 250f);
+            if(Player.player.isAttacking)
+            {
+                Ragdoll();
+                GetComponentInChildren<Rigidbody>().AddForce(Player.player.transform.forward * 500f + Vector3.up * 250f);
+            }
+            else
+            {
+                Player.player.Stumble();
+            }
         }
     }
 
     private void Ragdoll()
     {
         anim.enabled = false;
+        collider.enabled = false;
 
         for(int i = 0; i < joints.Length; i++)
             joints[i].enabled = true;

@@ -32,7 +32,7 @@ Also make machines/contraptions that have to be coordinated with players in orde
 public class Player : MonoBehaviour
 {
     public static Player player;
-    public static Vector3 playerStartPosition;
+    public static readonly Vector3 playerStartPosition = new Vector3(0, 0, 19);
     public static float maxPlayerDistance;
     public static Material selectedMaterial;
 
@@ -99,6 +99,7 @@ public class Player : MonoBehaviour
     private bool canSlideKick = true;
 
     public AudioMixer masterMixer;
+    public bool isAttacking;
 
 
     private void Awake()
@@ -110,7 +111,6 @@ public class Player : MonoBehaviour
         }
 
         player = this;
-        playerStartPosition = player.transform.position;
 
         selectedMaterial = Resources.Load<Material>("Materials/Selected");
 
@@ -129,8 +129,8 @@ public class Player : MonoBehaviour
         selector = GetComponent<Selector>();
         selector.Init(this);
 
-        hudCallback += (Stats _) => { HUD.SetDistance(maxPlayerDistance = Mathf.Max(maxPlayerDistance, player.transform.position.z - playerStartPosition.z)); };
-        hudCallback += (Stats _) => { HUD.SetTimerSeconds(Time.time); };
+        hudCallback += (Stats _) => { if(Game.isStarted) HUD.SetDistance(maxPlayerDistance = Mathf.Max(maxPlayerDistance, player.transform.position.z - playerStartPosition.z)); };
+        hudCallback += (Stats _) => { if(Game.isStarted) HUD.SetTimerSeconds(Time.time); };
         hudCallback += (Stats _) => { HUD.SetSpeedometer((player.controller.rigidbody.velocity.z * Vector3.forward).magnitude); };
     }
 
@@ -147,11 +147,13 @@ public class Player : MonoBehaviour
         controller.lockMovementDirection = lockMovementDirection;
 
         //Attack
-        if(canSlideKick && Input.GetButtonDown("Fire1") && controller.rigidbody.velocity.sqrMagnitude > 2.5f)
+        if(canSlideKick && Input.GetButtonDown("Fire1") && controller.rigidbody.velocity.sqrMagnitude > 2.5f && Game.isStarted)
         {
+            //TODO: Maybe make it so slow motion during slide kick only engages when there are zombies around (would need to use an animation event to call a function here
+            //instead of controlling timeScale directly in the animation for this to work though)
             anim.Play("SlideKick");
 
-            //10000 force is currently a perfect value for this animation. However, it only works if player has a little momentum currently. FIX THIS ISSUE
+            //10000 force is currently a perfect value for this animation.
             controller.rigidbody.AddForce(transform.forward * 10000f);
 
             canSlideKick = false;
@@ -178,14 +180,14 @@ public class Player : MonoBehaviour
         }
 
         //Look back
-        if(canLookBack && Input.GetKeyDown(KeyCode.Q) && !lockMovementDirection)
+        if(canLookBack && Input.GetKeyDown(KeyCode.Q) && !lockMovementDirection && Game.isStarted)
         {
             anim.Play("LookBack");
             canLookBack = false;
         }
 
         //Look forward
-        if(Input.GetKeyUp(KeyCode.Q) && lockMovementDirection)
+        if(Input.GetKeyUp(KeyCode.Q) && lockMovementDirection && Game.isStarted)
         {
             anim.Play("LookForward");
             Invoke(nameof(ResetLookBack), 5f);
@@ -195,16 +197,6 @@ public class Player : MonoBehaviour
 
         //Update HUD
         hudCallback?.Invoke(stats);
-
-        //
-        if(Input.GetKeyDown(KeyCode.Alpha0))
-            HUD.pointer = HUD.PointerType.NORMAL;
-
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-            HUD.pointer = HUD.PointerType.HAND;
-
-        if(Input.GetKeyDown(KeyCode.Alpha2))
-            HUD.pointer = HUD.PointerType.UNAVAILABLE;
     }
 
     private void ResetLookBack()
@@ -215,6 +207,11 @@ public class Player : MonoBehaviour
     private void ResetSlideKick()
     {
         canSlideKick = true;
+    }
+
+    public void Stumble()
+    {
+        anim.Play("Stumble");
     }
 
     /*private void Zoom(bool zoom)

@@ -512,6 +512,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RigidBodyFPSController
       objectReference: {fileID: 0}
+    - target: {fileID: 6859478760473098752, guid: ced1696effc80440e8549c3ba3d905d8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6859478760473098754, guid: ced1696effc80440e8549c3ba3d905d8,
         type: 3}
       propertyPath: m_Material
@@ -572,6 +577,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RunstepLenghten
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6859478760473098755, guid: ced1696effc80440e8549c3ba3d905d8,
+        type: 3}
+      propertyPath: movementSettings.ForwardSpeed
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6859478760473098755, guid: ced1696effc80440e8549c3ba3d905d8,
+        type: 3}
+      propertyPath: movementSettings.RunMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6859478760473098756, guid: ced1696effc80440e8549c3ba3d905d8,
         type: 3}

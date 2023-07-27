@@ -36,12 +36,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 newCameraPosition = Camera.transform.localPosition;
                 newCameraPosition.y = Camera.transform.localPosition.y - jumpAndLandingBob.Offset();
             }
+
+            //.....................................................................................
+            // TODO: Fix camera jitter. Somewhere in these lines causes the camera to jitter.
             else
             {
                 newCameraPosition = Camera.transform.localPosition;
                 newCameraPosition.y = m_OriginalCameraPosition.y - jumpAndLandingBob.Offset();
             }
             Camera.transform.localPosition = newCameraPosition;
+            //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
             if (!m_PreviouslyGrounded && rigidbodyFirstPersonController.Grounded)
             {

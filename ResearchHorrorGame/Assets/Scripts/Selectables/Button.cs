@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Button : MonoBehaviour, ISelectable, ITriggerable
 {
-    public List<IExecutable> listeners { get => GetListenersAsList(); set { } }
+    public List<IExecutable> listeners { get => ITriggerableHelper.GetListenersAsList(m_listeners); set { } }
     public MonoBehaviour[] m_listeners = new MonoBehaviour[0];
     public UnityAction<ITriggerable> TriggerAction { get; set; }
     public int targetSubMeshIndex = 0;
@@ -28,7 +28,9 @@ public class Button : MonoBehaviour, ISelectable, ITriggerable
 
         renderer = GetComponentInChildren<Renderer>();
         materials = renderer.materials;
-        normalMaterial = materials[targetSubMeshIndex];
+
+        if(targetSubMeshIndex > -1)
+            normalMaterial = materials[targetSubMeshIndex];
 
         BindListeners();
 
@@ -39,15 +41,23 @@ public class Button : MonoBehaviour, ISelectable, ITriggerable
     public void Deselect()
     {
         isSelected = false;
-        materials[targetSubMeshIndex] = normalMaterial;
-        renderer.materials = materials;
+
+        if(targetSubMeshIndex > -1)
+        {
+            materials[targetSubMeshIndex] = normalMaterial;
+            renderer.materials = materials;
+        }
     }
 
     public void Select()
     {
         isSelected = true;
-        materials[targetSubMeshIndex] = Player.selectedMaterial;
-        renderer.materials = materials;
+
+        if(targetSubMeshIndex > -1)
+        {
+            materials[targetSubMeshIndex] = Player.selectedMaterial;
+            renderer.materials = materials;
+        }
     }
 
     public void SetLayer() => gameObject.layer = LayerMask.NameToLayer("Selectable");
@@ -64,19 +74,4 @@ public class Button : MonoBehaviour, ISelectable, ITriggerable
     }
 
     public void Invoke() => TriggerAction?.Invoke(this);
-
-    private List<IExecutable> GetListenersAsList()
-    {
-        List<IExecutable> listeners = new List<IExecutable>();
-
-        IExecutable e;
-        foreach(MonoBehaviour m in m_listeners)
-        {
-            e = (IExecutable)m;
-            if(e != null)
-                listeners.Add(e);
-        }
-
-        return listeners;
-    }
 }
